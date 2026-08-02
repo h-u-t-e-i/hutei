@@ -8,9 +8,9 @@
  */
 window.WEB_TOOLBOX_TEXTS = {
   app: {
-    title: '私の全てのツールです。',
-    subtitle: 'huteinotu-rudesu',
-    navAria: '私の全てのツールです。',
+    title: '私のツールの全てです。',
+    subtitle: 'huteinotu-runosubetedesu',
+    navAria: '私のツールの全てです。',
     loading: '読み込み中の所為です。',
     reset: 'すべてリセットして、',
     startupError: 'エラーコードを吐いてゆくのです。',
