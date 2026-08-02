@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0e0f11" />
+  <title>Web Toolbox</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1 id="appTitle">Web Toolbox</h1>
+        <p id="appSubtitle">media utilities</p>
+      </div>
+      <nav id="toolNav" class="tool-nav" aria-label="ツール一覧"></nav>
+      <div class="sidebar-foot">
+        <button id="creditsButton" class="sidebar-link" type="button">クレジット</button>
+        <span>v0.4.6</span>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <h2 id="toolTitle">読み込み中…</h2>
+        <button id="resetTool" class="button button-secondary" type="button">初期化</button>
+      </header>
+      <section id="toolRoot" class="tool-root" aria-live="polite"></section>
+    </main>
+  </div>
+
+
+
+  <div id="creditsDialog" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="creditsTitle">
+    <div id="creditsBackdrop" class="modal-backdrop"></div>
+    <section class="modal-card">
+      <header class="modal-head">
+        <h2 id="creditsTitle">クレジット</h2>
+        <button id="creditsClose" class="button button-secondary" type="button">閉じる</button>
+      </header>
+      <div class="modal-body">
+        <div class="credit-block">
+          <p id="creditsFontText">本ソフトでは表示フォントに「源全ゴシック」を使用しています。</p>
+          <a id="creditsFontLink" href="https://drive.google.com/drive/folders/19WidrJoCmI5qLJV-eR_ydURIwxB2-DSH" target="_blank" rel="noopener noreferrer">配布元を開く</a>
+        </div>
+        <div class="credit-block">
+          <p id="creditsLicenseText">Licensed under SIL Open Font License 1.1</p>
+          <a id="creditsLicenseLink" href="http://scripts.sil.org/OFL" target="_blank" rel="noopener noreferrer">http://scripts.sil.org/OFL</a>
+        </div>
+        <p id="creditsCopyright" class="credit-copyright">© 2021 全て語り手の所為です。</p>
+
+        <div class="font-install">
+          <h3 id="fontInstallTitle">表示フォントの導入</h3>
+          <p id="fontInstallHelp">配布元から取得したフォントを選択すると、このブラウザに保存してソフト全体へ適用します。</p>
+          <label class="field">
+            <span id="fontFileLabel">フォントファイル</span>
+            <input id="appFontFile" class="input" type="file" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" />
+          </label>
+          <div class="button-row">
+            <button id="installAppFont" class="button button-primary" type="button">このフォントを使用</button>
+            <button id="removeAppFont" class="button button-secondary" type="button">保存したフォントを解除</button>
+          </div>
+          <p id="fontStatus" class="font-status">フォントを確認中…</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 文言を変更するときは、このファイルだけを編集してください。 -->
+  <script src="./texts/ja.js"></script>
+  <script>
+    (function () {
+      function getText(path, fallback) {
+        var value = window.WEB_TOOLBOX_TEXTS;
+        path.split('.').forEach(function (key) { value = value && value[key]; });
+        return typeof value === 'string' ? value : fallback;
+      }
+
+      document.title = getText('app.title', 'Web Toolbox');
+      document.getElementById('appTitle').textContent = getText('app.title', 'Web Toolbox');
+      document.getElementById('appSubtitle').textContent = getText('app.subtitle', 'media utilities');
+      document.getElementById('toolNav').setAttribute('aria-label', getText('app.navAria', 'ツール一覧'));
+      document.getElementById('toolTitle').textContent = getText('app.loading', '読み込み中…');
+      document.getElementById('resetTool').textContent = getText('app.reset', '初期化');
+      document.getElementById('creditsButton').textContent = getText('app.credits.button', 'クレジット');
+      document.getElementById('creditsTitle').textContent = getText('app.credits.title', 'クレジット');
+      document.getElementById('creditsClose').textContent = getText('app.credits.close', '閉じる');
+      document.getElementById('creditsFontText').textContent = getText('app.credits.fontText', '本ソフトでは表示フォントに「源全ゴシック」を使用しています。');
+      document.getElementById('creditsFontLink').textContent = getText('app.credits.fontLinkText', '配布元を開く');
+      document.getElementById('creditsFontLink').href = getText('app.credits.fontUrl', 'https://drive.google.com/drive/folders/19WidrJoCmI5qLJV-eR_ydURIwxB2-DSH');
+      document.getElementById('creditsLicenseText').textContent = getText('app.credits.licenseText', 'Licensed under SIL Open Font License 1.1');
+      document.getElementById('creditsLicenseLink').textContent = getText('app.credits.licenseUrl', 'http://scripts.sil.org/OFL');
+      document.getElementById('creditsLicenseLink').href = getText('app.credits.licenseUrl', 'http://scripts.sil.org/OFL');
+      document.getElementById('creditsCopyright').textContent = getText('app.credits.copyright', '© 2021 全て語り手の所為です。');
+      document.getElementById('fontInstallTitle').textContent = getText('app.credits.fontInstallTitle', '表示フォントの導入');
+      document.getElementById('fontInstallHelp').textContent = getText('app.credits.fontInstallHelp', '配布元から取得したフォントを選択すると、このブラウザに保存してソフト全体へ適用します。');
+      document.getElementById('fontFileLabel').textContent = getText('app.credits.fontFileLabel', 'フォントファイル');
+      document.getElementById('installAppFont').textContent = getText('app.credits.fontInstallButton', 'このフォントを使用');
+      document.getElementById('removeAppFont').textContent = getText('app.credits.fontRemoveButton', '保存したフォントを解除');
+      document.getElementById('fontStatus').textContent = getText('app.credits.fontChecking', 'フォントを確認中…');
+
+      window.addEventListener('error', function (event) {
+        var title = document.getElementById('toolTitle');
+        var root = document.getElementById('toolRoot');
+        var loading = getText('app.loading', '読み込み中…');
+        if (title && title.textContent === loading) title.textContent = getText('app.startupError', '起動エラー');
+        if (root && !root.textContent.trim()) {
+          var message = getText('app.startupFailed', '起動に失敗しました。ページを再読み込みしてください。');
+          root.innerHTML = '<div class="loading"></div>';
+          root.firstElementChild.textContent = message;
+        }
+        console.error(event.error || event.message);
+      });
+    })();
+  </script>
+  <script src="./app.bundle.js"></script>
+</body>
+</html>
